@@ -1,0 +1,11 @@
+[Unit]
+Description=Discord rich presence for Linux
+
+[Service]
+ExecStart=linux-presence
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
