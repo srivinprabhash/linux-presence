@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"github.com/hugolgst/rich-go/client"
@@ -24,12 +24,15 @@ func ReadOsRelaese() (release map[string]string) {
 
 func main() {
 
-	// Connect to DISCORD
+	// Trying to connect with discord every 10s.
 	const APP_ID = "980223541335191622"
-
-	err := client.Login(APP_ID)
-	if err != nil {
-		log.Panic("Could not connect to discord.", err)
+	for {
+		err := client.Login(APP_ID)
+		if err == nil {
+			break
+		}
+		fmt.Println("Could not connect. Keep trying.")
+		time.Sleep(time.Duration(time.Second * 10))
 	}
 
 	// READ os-release
@@ -41,7 +44,7 @@ func main() {
 	// Set discord activity
 	for {
 
-		err = client.SetActivity(client.Activity{
+		err := client.SetActivity(client.Activity{
 			Details:    OsRelease["PRETTY_NAME"],
 			LargeImage: "tux",
 			LargeText:  "Linux",
@@ -55,7 +58,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-
+		fmt.Println("Setting activity")
 		time.Sleep(time.Duration(time.Second * 100))
 	}
 
